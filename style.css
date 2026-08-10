@@ -1,0 +1,11 @@
+#mode{
+    display: flex;
+    flex-direction:row-reverse;
+    
+}
+h1{
+    text-align: center;
+}
+#start-btn{
+
+}

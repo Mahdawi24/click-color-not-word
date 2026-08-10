@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-    <script defer src="./app.js"></script>
+    <title>Click the Color</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
 </head>
+
 <body>
-    
+
+    <main class="game">
+
+        <h1>Click the Color, Not the Word!</h1>
+
+        <div class="game-info">
+            <p>Score: 0</p>
+            <p>Lives: 3</p>
+            <p>Time: 30</p>
+        </div>
+
+        <div class="word-container">
+            <h2 id="word">RED</h2>
+        </div>
+
+        <div class="color-buttons">
+            <button class="color-btn" id="red">Red</button>
+            <button class="color-btn" id="blue">Blue</button>
+            <button class="color-btn" id="green">Green</button>
+            <button class="color-btn" id="yellow">Yellow</button>
+        </div>
+
+        <p id="message"></p>
+
+        <button id="start-btn">Start Game</button>
+
+    </main>
+
 </body>
 </html>
