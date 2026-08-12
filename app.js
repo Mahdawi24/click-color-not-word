@@ -69,6 +69,7 @@ function winOrLoseGame(){
     }
 
 }
+//nextStage checks the stage difficulty based on stage level 1 to 5
 function nextStage(){
    stage++;
    if(stage === 1){
