@@ -1,11 +1,11 @@
-
 /*-------------------------------- Constants --------------------------------*/
 let score = 0;
 let lives = 3;
-let timeLeft = 30;
+let timeLeft = 10;
 let correctColor = '';
 let gameActive = false;
-
+let stage = 1;
+const stageTimes = [10, 8, 6, 4, 3];
 /*---------------------------- Variables (state) ----------------------------*/
 
 /*------------------------ Cached Element References ------------------------*/
@@ -21,7 +21,7 @@ resetButtonElement.style.display = 'none';
 function startGame() {
     score = 0;
     lives = 3;
-    timeLeft = 30;
+    timeLeft = 10;
     gameActive = true;
     messageElement.textContent = '';
     startButton.style.display = 'none';
@@ -29,17 +29,15 @@ function startGame() {
     randomColorWord();
     
 }
-function gameStages(){
-    while(gameActive === true){
-        
-    }
+function nextStage(){
+   
 }
 function randomColorWord(){
  if (gameActive === true) {
         const colors = ['red', 'blue', 'green', 'yellow'];
         const word = colors[Math.floor(Math.random() * colors.length)];
         const color = colors[Math.floor(Math.random() * colors.length)];
-
+        correctColor = color;
         wordElement.textContent = word.toUpperCase();
         wordElement.style.color = color;
 
@@ -51,11 +49,23 @@ function randomColorWord(){
         
     }
 }
+function handleColorClick(event){
+    if(gameActive === false){
+        return
+    }
+    const clickedColor = event.target.id;
+
+    if(clickedColor === correctColor){
+        console.log('correct')
+    }
+    else{
+        console.log('wrong!')
+    }
+}
 /*----------------------------- Event Listeners -----------------------------*/
 
 startButton.addEventListener('click', startGame);
 for(let oneColorButton of colorButtons){
-    oneColorButton.addEventListener('click',randomColorWord)
+    oneColorButton.addEventListener('click',handleColorClick)
+    oneColorButton.addEventListener('click', randomColorWord)
 }
-
-
