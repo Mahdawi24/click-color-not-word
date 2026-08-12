@@ -1,10 +1,9 @@
 /*-------------------------------- Constants --------------------------------*/
-let score = 0;
 let lives = 3;
 let timeLeft = 10;
 let correctColor = '';
 let gameActive = false;
-let stage = 0;
+let stage = 1;
 const stageTimes = [10, 8, 6, 4, 3];
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -19,8 +18,38 @@ resetButtonElement.style.display = 'none';
 const currentStageElement = document.querySelector('#current-stage')
 const currentLivesElement = document.querySelector('#current-lives')
 const currentStageDifficulty = document.querySelector('#current-difficulty')
+const timerElement = document.querySelector('#timer')
 /*-------------------------------- Functions --------------------------------*/
+function timer(event){
+    timeLeft = event;
+    timerInterval = setInterval(function () {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            console.log('You Looosse')
+            clearInterval(timerInterval);
+        }
+    }, 1000);
+}
+function startTimer() {
+    if(stage === 1){
+    timer(10);
+   }
+   else if(stage === 2){
+    timer(8);
+   }
+   else if(stage === 3){
+    timer(6);
+   }
+   else if(stage === 4){
+    timer(4);
+   }
+   else if(stage === 5){
+    timer(3);
+   }
+}
 function startGame() {
+    startTimer();
     score = 0;
     lives = 3;
     timeLeft = 10;
@@ -31,13 +60,14 @@ function startGame() {
     randomColorWord();
     
 }
-function winGame(){
-    lives = 3;
-    timeLeft = 10;
-    gameActive = false;
-    messageElement.textContent = '';
-    currentStageElement.textContent = '--';
-    currentLivesElement.textContent = 3;
+function winOrLoseGame(){
+    if(lives >=1){
+    console.log('you win')
+    }
+    else{
+    console.log('you lose')
+    }
+
 }
 function nextStage(){
    stage++;
@@ -57,7 +87,7 @@ function nextStage(){
     currentStageDifficulty.textContent = 'Impossible'
    }
    if(stage > 5){
-    winGame();
+    winOrLoseGame();
     return;
    }
    if(lives === 0){
