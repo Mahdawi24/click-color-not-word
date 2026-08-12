@@ -4,7 +4,7 @@ let lives = 3;
 let timeLeft = 10;
 let correctColor = '';
 let gameActive = false;
-let stage = 1;
+let stage = 0;
 const stageTimes = [10, 8, 6, 4, 3];
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -16,7 +16,9 @@ const messageElement = document.querySelector('#message');
 const startButton = document.querySelector('#start-btn');
 const resetButtonElement = document.querySelector('#reset-btn')
 resetButtonElement.style.display = 'none';
-
+const currentStageElement = document.querySelector('#current-stage')
+const currentLivesElement = document.querySelector('#current-lives')
+const currentStageDifficulty = document.querySelector('#current-difficulty')
 /*-------------------------------- Functions --------------------------------*/
 function startGame() {
     score = 0;
@@ -29,8 +31,43 @@ function startGame() {
     randomColorWord();
     
 }
+function winGame(){
+    lives = 3;
+    timeLeft = 10;
+    gameActive = false;
+    messageElement.textContent = '';
+    currentStageElement.textContent = '--';
+    currentLivesElement.textContent = 3;
+}
 function nextStage(){
-   
+   stage++;
+   if(stage === 1){
+    currentStageDifficulty.textContent = 'Easy'
+   }
+   else if(stage === 2){
+    currentStageDifficulty.textContent = 'Mediam'
+   }
+   else if(stage === 3){
+    currentStageDifficulty.textContent = 'Hard'
+   }
+   else if(stage === 4){
+    currentStageDifficulty.textContent = 'Extreme'
+   }
+   else if(stage === 5){
+    currentStageDifficulty.textContent = 'Impossible'
+   }
+   if(stage > 5){
+    winGame();
+    return;
+   }
+   if(lives === 0){
+    wordElement.textContent = 'You Lose'
+    return;
+   }
+   timeLeft = stageTimes[stage - 1]
+   currentStageElement.textContent = stage;
+   currentLivesElement.textContent = lives;
+
 }
 function randomColorWord(){
  if (gameActive === true) {
@@ -40,13 +77,9 @@ function randomColorWord(){
         correctColor = color;
         wordElement.textContent = word.toUpperCase();
         wordElement.style.color = color;
-
-        console.log('word:', word, '| shown in:', color);
     }
     else{
         wordElement.textContent = 'Start the Game!';
-        console.log(wordElement);
-        
     }
 }
 function handleColorClick(event){
@@ -59,6 +92,7 @@ function handleColorClick(event){
         console.log('correct')
     }
     else{
+        lives--;
         console.log('wrong!')
     }
 }
@@ -68,4 +102,5 @@ startButton.addEventListener('click', startGame);
 for(let oneColorButton of colorButtons){
     oneColorButton.addEventListener('click',handleColorClick)
     oneColorButton.addEventListener('click', randomColorWord)
+    oneColorButton.addEventListener('click',nextStage)
 }
