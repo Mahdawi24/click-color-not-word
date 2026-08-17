@@ -3,7 +3,7 @@ let lives = 3;
 let timeLeft = 10;
 let correctColor = '';
 let gameActive = false;
-let stage = 1;
+let stage = 0;
 const stageTimes = [10, 8, 6, 4, 3];
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -20,7 +20,7 @@ const currentLivesElement = document.querySelector('#current-lives')
 const currentStageDifficulty = document.querySelector('#current-difficulty')
 const timerElement = document.querySelector('#timer')
 /*-------------------------------- Functions --------------------------------*/
-function timer(event){
+function timer(event) {
     timeLeft = event;
     timerInterval = setInterval(function () {
         timeLeft--;
@@ -32,25 +32,24 @@ function timer(event){
     }, 1000);
 }
 function startTimer() {
-    if(stage === 1){
-    timer(10);
-   }
-   else if(stage === 2){
-    timer(8);
-   }
-   else if(stage === 3){
-    timer(6);
-   }
-   else if(stage === 4){
-    timer(4);
-   }
-   else if(stage === 5){
-    timer(3);
-   }
+    if (stage === 0) {
+        timer(10);
+    }
+    else if (stage === 1) {
+        timer(8);
+    }
+    else if (stage === 2) {
+        timer(6);
+    }
+    else if (stage === 3) {
+        timer(4);
+    }
+    else if (stage === 4) {
+        timer(2);
+    }
 }
 function startGame() {
     startTimer();
-    score = 0;
     lives = 3;
     timeLeft = 10;
     gameActive = true;
@@ -58,50 +57,57 @@ function startGame() {
     startButton.style.display = 'none';
     resetButtonElement.style.display = 'inline';
     randomColorWord();
-    
-}
-function winOrLoseGame(){
-    if(lives >=1){
-    console.log('you win')
-    }
-    else{
-    console.log('you lose')
-    }
 
 }
-//nextStage checks the stage difficulty based on stage level 1 to 5
-function nextStage(){
-   stage++;
-   if(stage === 1){
-    currentStageDifficulty.textContent = 'Easy'
-   }
-   else if(stage === 2){
-    currentStageDifficulty.textContent = 'Mediam'
-   }
-   else if(stage === 3){
-    currentStageDifficulty.textContent = 'Hard'
-   }
-   else if(stage === 4){
-    currentStageDifficulty.textContent = 'Extreme'
-   }
-   else if(stage === 5){
-    currentStageDifficulty.textContent = 'Impossible'
-   }
-   if(stage > 5){
-    winOrLoseGame();
-    return;
-   }
-   if(lives === 0){
-    wordElement.textContent = 'You Lose'
-    return;
-   }
-   timeLeft = stageTimes[stage - 1]
-   currentStageElement.textContent = stage;
-   currentLivesElement.textContent = lives;
+function gameOver() {
+    gameActive = false;
+    wordElement.textContent = 'GAME OVER, YOU LOSE!'
+    wordElement.style.color = 'black';
+    timerElement.textContent = '10';
+    currentStageElement.textContent = '--';
+    currentLivesElement.textContent = '3';
+    currentStageDifficulty.textContent = '--';
 
 }
-function randomColorWord(){
- if (gameActive === true) {
+function winGame() {
+    gameActive = false;
+    wordElement.textContent = 'CONGRATNS, YOU WIN!';
+    wordElement.style.color = 'black';
+    timerElement.textContent = '10';
+    currentStageElement.textContent = '--';
+    currentLivesElement.textContent = '3';
+    currentStageDifficulty.textContent = '--';
+
+}
+
+function nextStage() {
+    stage++;
+    if (stage === 1) {
+        currentStageDifficulty.textContent = 'Easy'
+    }
+    else if (stage === 2) {
+        currentStageDifficulty.textContent = 'Mediam'
+    }
+    else if (stage === 3) {
+        currentStageDifficulty.textContent = 'Hard'
+    }
+    else if (stage === 4) {
+        currentStageDifficulty.textContent = 'Extreme'
+    }
+    else if (stage === 5) {
+        currentStageDifficulty.textContent = 'Impossible'
+    }
+    if (stage > 5) {
+
+        return;
+    }
+    if (lives === 0) {
+        wordElement.textContent = 'You Lose'
+        return;
+    }
+}
+function randomColorWord() {
+    if (gameActive === true) {
         const colors = ['red', 'blue', 'green', 'yellow'];
         const word = colors[Math.floor(Math.random() * colors.length)];
         const color = colors[Math.floor(Math.random() * colors.length)];
@@ -109,20 +115,20 @@ function randomColorWord(){
         wordElement.textContent = word.toUpperCase();
         wordElement.style.color = color;
     }
-    else{
+    else {
         wordElement.textContent = 'Start the Game!';
     }
 }
-function handleColorClick(event){
-    if(gameActive === false){
+function handleColorClick(event) {
+    if (gameActive === false) {
         return
     }
     const clickedColor = event.target.id;
 
-    if(clickedColor === correctColor){
+    if (clickedColor === correctColor) {
         console.log('correct')
     }
-    else{
+    else {
         lives--;
         console.log('wrong!')
     }
@@ -130,8 +136,8 @@ function handleColorClick(event){
 /*----------------------------- Event Listeners -----------------------------*/
 
 startButton.addEventListener('click', startGame);
-for(let oneColorButton of colorButtons){
-    oneColorButton.addEventListener('click',handleColorClick)
+for (let oneColorButton of colorButtons) {
+    oneColorButton.addEventListener('click', handleColorClick)
     oneColorButton.addEventListener('click', randomColorWord)
-    oneColorButton.addEventListener('click',nextStage)
+    oneColorButton.addEventListener('click', nextStage)
 }
