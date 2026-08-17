@@ -79,32 +79,27 @@ function winGame() {
     currentStageDifficulty.textContent = '--';
 
 }
-
-function nextStage() {
-    stage++;
-    if (stage === 1) {
+function stageDifficulty(){
+    if (stage === 0) {
         currentStageDifficulty.textContent = 'Easy'
     }
-    else if (stage === 2) {
+    else if (stage === 1) {
         currentStageDifficulty.textContent = 'Mediam'
     }
-    else if (stage === 3) {
+    else if (stage === 2) {
         currentStageDifficulty.textContent = 'Hard'
     }
-    else if (stage === 4) {
-        currentStageDifficulty.textContent = 'Extreme'
+    else if (stage === 3) {
+        currentStageDiff3iculty.textContent = 'Extreme'
     }
-    else if (stage === 5) {
+    else if (stage === 4) {
         currentStageDifficulty.textContent = 'Impossible'
     }
-    if (stage > 5) {
-
-        return;
-    }
-    if (lives === 0) {
-        wordElement.textContent = 'You Lose'
-        return;
-    }
+    currentStageElement.textContent = stage + 1;
+    currentLivesElement.textContent = lives;
+}
+function nextStage() {
+    
 }
 function randomColorWord() {
     if (gameActive === true) {
