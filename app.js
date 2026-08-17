@@ -19,14 +19,22 @@ const currentLivesElement = document.querySelector('#current-lives')
 const currentStageDifficulty = document.querySelector('#current-difficulty')
 const timerElement = document.querySelector('#timer')
 /*-------------------------------- Functions --------------------------------*/
-function timer(event) {
-    timeLeft = event;
+function timer(seconds) {
+    timeLeft = seconds;
     timerInterval = setInterval(function () {
         timeLeft--;
         timerElement.textContent = timeLeft;
         if (timeLeft <= 0) {
-            console.log('You Looosse')
             clearInterval(timerInterval);
+            lives--;
+            currentLivesElement.textContent = lives;
+            if(lives <=0){
+                gameOver();
+            }
+            else{
+                messageElement.textContent = 'Time is Up!';
+                gameOver();
+            }
         }
     }, 1000);
 }
@@ -48,17 +56,32 @@ function startTimer() {
     }
 }
 function startGame() {
-    startTimer();
     lives = 3;
-    timeLeft = 10;
+    stage = 0;
     gameActive = true;
-    messageElement.textContent = '';
     startButton.style.display = 'none';
     resetButtonElement.style.display = 'inline';
-    randomColorWord();
-
+    nextStage();
+}
+function resetGame() {
+    clearInterval(timerInterval);
+    lives = 3;
+    stage = 0;
+    timeLeft = 10;
+    correctColor = '';
+    gameActive = false;
+    timerElement.textContent = '10';
+    currentStageElement.textContent = '--';
+    currentLivesElement.textContent = '3';
+    currentStageDifficulty.textContent = '--';
+    wordElement.textContent = 'Start to Play';
+    wordElement.style.color = 'black';
+    messageElement.textContent = '';
+    startButton.style.display = 'inline';
+    resetButtonElement.style.display = 'none';
 }
 function gameOver() {
+    clearInterval(timerInterval);
     gameActive = false;
     wordElement.textContent = 'GAME OVER, YOU LOSE!'
     wordElement.style.color = 'black';
@@ -69,6 +92,7 @@ function gameOver() {
 
 }
 function winGame() {
+    clearInterval(timerInterval);
     gameActive = false;
     wordElement.textContent = 'CONGRATNS, YOU WIN!';
     wordElement.style.color = 'black';
@@ -94,17 +118,18 @@ function stageDifficulty() {
     else if (stage === 4) {
         currentStageDifficulty.textContent = 'Impossible'
     }
-    currentStageElement.textContent = stage + 1;
+    currentStageElement.textContent = stage;
     currentLivesElement.textContent = lives;
 }
 function nextStage() {
+    
     if (lives <= 0) {
         gameOver();
-        return;
+        
     }
     if (stage >= 5) {
         winGame();
-        return;
+        
     }
     stageDifficulty();
     randomColorWord();
@@ -124,25 +149,30 @@ function randomColorWord() {
     }
 }
 function handleColorClick(event) {
-    if (gameActive === false) {
-        return
+    if(gameActive === false){
+        return;
     }
     const clickedColor = event.target.id;
-
     if (clickedColor === correctColor) {
-        console.log('correct')
-        nextStage();
-
-    }
-    else {
+        console.log('correct');
+        stage++;
+        clearInterval(timerInterval);
+        if (stage >= 5) {
+            winGame();
+        } else {
+            messageElement.textContent = 'Correct!';
+            nextStage();
+        }
+    } else {
         lives--;
-        console.log('wrong!')
-        nextStage();
+        currentLivesElement.textContent = lives;
+        nextStage;
     }
 }
 /*----------------------------- Event Listeners -----------------------------*/
 
 startButton.addEventListener('click', startGame);
+resetButtonElement.addEventListener('click', resetGame);
 for (let oneColorButton of colorButtons) {
     oneColorButton.addEventListener('click', handleColorClick)
 }
