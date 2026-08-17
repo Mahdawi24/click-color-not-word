@@ -4,7 +4,6 @@ let timeLeft = 10;
 let correctColor = '';
 let gameActive = false;
 let stage = 0;
-const stageTimes = [10, 8, 6, 4, 3];
 /*---------------------------- Variables (state) ----------------------------*/
 
 /*------------------------ Cached Element References ------------------------*/
@@ -79,7 +78,7 @@ function winGame() {
     currentStageDifficulty.textContent = '--';
 
 }
-function stageDifficulty(){
+function stageDifficulty() {
     if (stage === 0) {
         currentStageDifficulty.textContent = 'Easy'
     }
@@ -99,7 +98,17 @@ function stageDifficulty(){
     currentLivesElement.textContent = lives;
 }
 function nextStage() {
-    
+    if (lives <= 0) {
+        gameOver();
+        return;
+    }
+    if (stage >= 5) {
+        winGame();
+        return;
+    }
+    stageDifficulty();
+    randomColorWord();
+    startTimer();
 }
 function randomColorWord() {
     if (gameActive === true) {
@@ -122,10 +131,13 @@ function handleColorClick(event) {
 
     if (clickedColor === correctColor) {
         console.log('correct')
+        nextStage();
+
     }
     else {
         lives--;
         console.log('wrong!')
+        nextStage();
     }
 }
 /*----------------------------- Event Listeners -----------------------------*/
@@ -133,6 +145,4 @@ function handleColorClick(event) {
 startButton.addEventListener('click', startGame);
 for (let oneColorButton of colorButtons) {
     oneColorButton.addEventListener('click', handleColorClick)
-    oneColorButton.addEventListener('click', randomColorWord)
-    oneColorButton.addEventListener('click', nextStage)
 }
