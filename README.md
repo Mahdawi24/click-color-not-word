@@ -25,6 +25,7 @@ This is a simple game where a word is displayed multiple times. Each time the wo
 1. Add HardCore mode that is more much difficult
 2. Add reversed logic game clicking the word not the color 
 3. Add pictures game of the same logic and player should match the random generated picture
+4. Add more colors and color words
 ## credits
 * https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
 * https://www.w3schools.com/
