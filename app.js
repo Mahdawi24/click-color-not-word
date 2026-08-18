@@ -127,7 +127,7 @@ function stageDifficulty() {
     else if (stage === 4) {
         currentStageDifficulty.textContent = 'Impossible'
     }
-    currentStageElement.textContent = stage;
+    currentStageElement.textContent = stage+1;
     currentLivesElement.textContent = lives;
 }
 function nextStage() {
