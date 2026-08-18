@@ -16,4 +16,6 @@ This is a simple game where a word is displayed multiple times. Each time the wo
 ## ScreenShots
 ![alt text](image.png)
 
-## 
+## future improvement
+
+## credits
