@@ -35,8 +35,9 @@ function timer(seconds) {
                 gameOver();
             }
             else{
-                messageElement.textContent = 'Time is UP!';
-                gameOver();
+                if(lives >=1){
+                    nextStage();
+                }
             }
         }
     }, 1000);
