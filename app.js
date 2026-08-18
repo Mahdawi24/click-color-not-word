@@ -4,11 +4,12 @@ let timeLeft = 10;
 let correctColor = '';
 let gameActive = false;
 let stage = 0;
+let timerInterval;
 /*---------------------------- Variables (state) ----------------------------*/
 
 /*------------------------ Cached Element References ------------------------*/
 const wordElement = document.querySelector('#word');
-wordElement.textContent = ' ';
+wordElement.textContent = 'Test Your Focus!';
 const colorButtons = document.querySelectorAll('.color-btn');
 const messageElement = document.querySelector('#message');
 const startButton = document.querySelector('#start-btn');
@@ -20,7 +21,9 @@ const currentStageDifficulty = document.querySelector('#current-difficulty')
 const timerElement = document.querySelector('#timer')
 /*-------------------------------- Functions --------------------------------*/
 function timer(seconds) {
+    clearInterval(timerInterval);
     timeLeft = seconds;
+    timerElement.textContent = timeLeft;
     timerInterval = setInterval(function () {
         timeLeft--;
         timerElement.textContent = timeLeft;
@@ -32,7 +35,7 @@ function timer(seconds) {
                 gameOver();
             }
             else{
-                messageElement.textContent = 'Time is Up!';
+                messageElement.textContent = 'Time is UP!';
                 gameOver();
             }
         }
@@ -89,6 +92,9 @@ function gameOver() {
     currentStageElement.textContent = '--';
     currentLivesElement.textContent = '3';
     currentStageDifficulty.textContent = '--';
+    messageElement.textContent = '';
+    startButton.style.display = 'inline';
+    resetButtonElement.style.display = 'none';
 
 }
 function winGame() {
@@ -100,6 +106,9 @@ function winGame() {
     currentStageElement.textContent = '--';
     currentLivesElement.textContent = '3';
     currentStageDifficulty.textContent = '--';
+    messageElement.textContent = '';
+    startButton.style.display = 'inline';
+    resetButtonElement.style.display = 'none';
 
 }
 function stageDifficulty() {
@@ -113,7 +122,7 @@ function stageDifficulty() {
         currentStageDifficulty.textContent = 'Hard'
     }
     else if (stage === 3) {
-        currentStageDiff3iculty.textContent = 'Extreme'
+        currentStageDifficulty.textContent = 'Extreme'
     }
     else if (stage === 4) {
         currentStageDifficulty.textContent = 'Impossible'
@@ -127,13 +136,15 @@ function nextStage() {
         gameOver();
         
     }
-    if (stage >= 5) {
+    else if (stage >= 5) {
         winGame();
         
     }
+    else{
     stageDifficulty();
     randomColorWord();
     startTimer();
+    }
 }
 function randomColorWord() {
     if (gameActive === true) {
@@ -154,7 +165,6 @@ function handleColorClick(event) {
     }
     const clickedColor = event.target.id;
     if (clickedColor === correctColor) {
-        console.log('correct');
         stage++;
         clearInterval(timerInterval);
         if (stage >= 5) {
@@ -166,7 +176,8 @@ function handleColorClick(event) {
     } else {
         lives--;
         currentLivesElement.textContent = lives;
-        nextStage;
+        messageElement.textContent = 'Wrong!';
+        nextStage();
     }
 }
 /*----------------------------- Event Listeners -----------------------------*/
