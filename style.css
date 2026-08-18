@@ -2,9 +2,9 @@
   box-sizing: border-box;
 }
 body{
-    background-color: lightgray;
     text-align: center;
     font-size: 25px;
+    background-color:lightgray;
 }
 .game-info{
   display: flex;
